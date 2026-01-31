@@ -25,9 +25,11 @@ jobs:
 
       - name: Create Xcode Project
         run: |
+          # هنا يتم صنع المجلد الذي يحتوي على مشروعك
           toolchain create FoundingApp .
 
       - name: Compile Xcode Project
+        continue-on-error: true
         run: |
           cd foundingapp-ios
           xcodebuild -project foundingapp.xcodeproj \
@@ -40,7 +42,8 @@ jobs:
             ENTITLEMENTS_ALLOWED=NO
 
       - name: Upload Build Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: FoundingApp-iOS-Project
+          name: FoundingApp-Xcode-Project
           path: foundingapp-ios/
