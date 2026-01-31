@@ -5,10 +5,10 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
@@ -21,18 +21,15 @@ jobs:
 
       - name: Build Kivy for iOS
         run: |
-          # هذه الخطوة تبني المحرك الأساسي (تأخذ وقتاً)
           toolchain build kivy
 
       - name: Create Xcode Project
         run: |
-          # إنشاء مشروع Xcode وربطه بملفاتك
           toolchain create FoundingApp .
 
       - name: Compile Xcode Project
         run: |
           cd foundingapp-ios
-          # الأمر المعدل لتجاوز التوقيع وتحديد نسخة حديثة للآيفون
           xcodebuild -project foundingapp.xcodeproj \
             -scheme foundingapp \
             -configuration Release \
@@ -43,7 +40,7 @@ jobs:
             ENTITLEMENTS_ALLOWED=NO
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: FoundingApp-iOS-Project
           path: foundingapp-ios/
